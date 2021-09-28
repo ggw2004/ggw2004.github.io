@@ -12,24 +12,36 @@ let y;
 let w;
 let h;
 let speed;
-let state = "Space Invader";
+let playerX;
+let playerY;
+let bulletState;
+let state = "Start Screen";
 let letterSize = 48;
 let textBoxBuffer = 15;
 let backgroundColor = "purple";
 let laserCannon;
 let cannonSize = 45;
 let spaceInvaderPerimeter = 100;
+let direction;
 
 
 function preload() {
   laserCannon = loadImage ("assets/Laser_Cannon.png");
 }
-
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  console.log(windowWidth, windowHeight);
-  x = width/2;
-  y = height-50 ;
+  x = width;
+  y = height;
+  
+  // Space Invader Control Variables
+  playerX = x / 2;
+  playerY = y / 7 * 6;
+  
+  
+  // Snake Game Control Variables
+  
+  
+  // Astroid Control Variables
 }
 
 
@@ -51,6 +63,7 @@ function draw() {
   if (state === "Space Invader"){
     spaceInvader();
   }
+
 }
 
 
@@ -120,7 +133,7 @@ function chooseGame() {
     mouseY >= y / 2 - textBoxBuffer - gameOptionHeight / 2 &&
     mouseIsPressed
   ) {
-    state = "Space Invader";  
+    state = "Space Invader";
   }
   
   
@@ -137,16 +150,33 @@ function chooseGame() {
 
 // Spacce Invader code
 function spaceInvader() {
+
+  // perimeter
+  if (playerX < 0 + spaceInvaderPerimeter){
+    playerX = spaceInvaderPerimeter;
+  }
+
+  if (playerX > width - spaceInvaderPerimeter) {
+    playerX = width - spaceInvaderPerimeter;
+  }
+
+
+
+  if (direction === "right") {
+    playerX += speed;
+  }
+  else if (direction === "left") {
+    playerX -= speed;
+  }
   backgroundColor = 51;
   displayLaserCannon();
-  keyPressed();
+  // keyPressed();
   
   
 }
 
-
 function displayLaserCannon(){
-  image(laserCannon, x, y, cannonSize, cannonSize);
+  image(laserCannon, playerX, playerY, cannonSize, cannonSize);
 }
 
 // keyboard controls
@@ -160,29 +190,19 @@ function keyPressed() {
     // laser cannon horizontal movement
     
     // move left
-    if (keyCode === 65){ // a
-      x -= speed;
+    if (keyCode === 65 || keyCode === 37){ // a
+      direction = "left";
+
     }
     
     // move right
-    if (keyCode === 68) { // d
-      x += speed;
-    }
-    
-    // perimeter
-    if (x < 0 + spaceInvaderPerimeter){
-      x = spaceInvaderPerimeter;
-    }
-    
-    if (x > width - spaceInvaderPerimeter) {
-      x = width - spaceInvaderPerimeter;
+    if (keyCode === 68 || keyCode === 39) { // d
+      direction = "right";
     }
     
 
-    
-    
-    console.log(width, x);
 
 
   }
+  
 }
