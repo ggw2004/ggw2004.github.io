@@ -14,6 +14,7 @@ let h;
 let speed;
 let playerX;
 let playerY;
+let bullet;
 let bulletState;
 let bulletSpeed;
 let state = "Start Screen";
@@ -25,10 +26,13 @@ let cannonSize = 45;
 let spaceInvaderPerimeter = 300;
 let direction;
 
-
+// preloads varibales and sprites
 function preload() {
   laserCannon = loadImage ("assets/Laser_Cannon.png");
+  bullet = loadImage ("assets/laser/png")
 }
+
+// window setup
 function setup() {
   createCanvas(windowWidth, windowHeight);
   x = width;
@@ -176,6 +180,7 @@ function spaceInvader() {
   
 }
 
+// displays laser cannon
 function displayLaserCannon(){
   image(laserCannon, playerX, playerY, cannonSize, cannonSize);
 }
@@ -207,4 +212,22 @@ function keyPressed() {
 
   }
   
+}
+
+
+// Fires bullet for laser cannon
+function spaceInvaderFireBullet() {
+
+  // new bullet is ready to be fired
+  if (bulletState === "ready"){
+    if (keyCode === 32 || keyCode === 87 || keyCode === 38){
+      bulletState = "fire";
+    }
+  }
+
+  // bullet is fired
+  if (bulletState === "fire") {
+    // creates bullet
+    bullet = 
+  }
 }
