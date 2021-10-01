@@ -15,13 +15,14 @@ let speed;
 let playerX;
 let playerY;
 let bulletState;
+let bulletSpeed;
 let state = "Start Screen";
 let letterSize = 48;
 let textBoxBuffer = 15;
 let backgroundColor = "purple";
 let laserCannon;
 let cannonSize = 45;
-let spaceInvaderPerimeter = 100;
+let spaceInvaderPerimeter = 300;
 let direction;
 
 
@@ -186,6 +187,7 @@ function keyPressed() {
   // keyboard control for Space Invaders
   if (state === "Space Invader") {
     speed = 4;
+    bulletSpeed = 5;
     
     // laser cannon horizontal movement
     
