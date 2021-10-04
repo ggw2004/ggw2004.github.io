@@ -14,13 +14,16 @@ let h;
 let speed;
 let playerX;
 let playerY;
-let bullet;
-let bulletState;
-let bulletSpeed;
 let state = "Start Screen";
 let letterSize = 48;
 let textBoxBuffer = 15;
 let backgroundColor = "purple";
+let bullet;
+let bulletX;
+let bulletY;
+let bulletState;
+let bulletSpeed;
+let bulletSize = 15;
 let laserCannon;
 let cannonSize = 45;
 let spaceInvaderPerimeter = 300;
@@ -156,6 +159,10 @@ function chooseGame() {
 // Spacce Invader code
 function spaceInvader() {
 
+  bulletX = playerX;
+  bulletY = playerY + 10;
+  bulletSpeed = 5;
+
   // perimeter
   if (playerX < 0 + spaceInvaderPerimeter){
     playerX = spaceInvaderPerimeter;
@@ -166,23 +173,46 @@ function spaceInvader() {
   }
 
 
-
+  // control states
   if (direction === "right") {
     playerX += speed;
   }
   else if (direction === "left") {
     playerX -= speed;
   }
+
+  // bullet is fired
+  if (bulletState === "fire") {
+    // creates bullet
+    displayBullet();
+    // moves bullet
+    bulletY += bulletSpeed;
+  }
+
+  // bullet boundary
+  if (bulletY > y / 16) {
+    bulletState === "ready";
+  }
+
+
+
+
+
   backgroundColor = 51;
-  displayLaserCannon();
-  // keyPressed();
-  
-  
+  displayLaserCannon();  
 }
 
 // displays laser cannon
 function displayLaserCannon(){
   image(laserCannon, playerX, playerY, cannonSize, cannonSize);
+}
+
+// diplsays bullet
+function displayBullet(){
+  if (state === "Space Invader"){
+    image(bullet, bulletX, bulletY, bulletSize, bulletSize)
+  }
+ 
 }
 
 // keyboard controls
@@ -207,27 +237,17 @@ function keyPressed() {
       direction = "right";
     }
     
+    // Fires bullet for laser cannon
+    // new bullet is ready to be fired
+    if (bulletState === "ready"){
+      if (keyCode === 32 || keyCode === 87 || keyCode === 38){
+        bulletState = "fire";
+      }
+    }
 
-
+   
 
   }
   
 }
 
-
-// Fires bullet for laser cannon
-function spaceInvaderFireBullet() {
-
-  // new bullet is ready to be fired
-  if (bulletState === "ready"){
-    if (keyCode === 32 || keyCode === 87 || keyCode === 38){
-      bulletState = "fire";
-    }
-  }
-
-  // bullet is fired
-  if (bulletState === "fire") {
-    // creates bullet
-    bullet = 
-  }
-}
