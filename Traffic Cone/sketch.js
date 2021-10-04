@@ -13,6 +13,7 @@ function setup() {
 function draw() {
   background(220);
 
-
-  rect(mouseX, mouseY, 150, 100);
+  fill("blue");
+  ellipse(mouseX, mouseY, 150, 100);
 }
+ 
