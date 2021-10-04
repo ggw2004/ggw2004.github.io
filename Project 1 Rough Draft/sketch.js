@@ -21,9 +21,9 @@ let backgroundColor = "purple";
 let bullet;
 let bulletX;
 let bulletY;
-let bulletState;
+let bulletState = "ready";
 let bulletSpeed;
-let bulletSize = 15;
+let bulletSize = 100;
 let laserCannon;
 let cannonSize = 45;
 let spaceInvaderPerimeter = 300;
@@ -160,7 +160,7 @@ function chooseGame() {
 function spaceInvader() {
 
   bulletX = playerX;
-  bulletY = playerY + 10;
+  bulletY = playerY - 20;
   bulletSpeed = 5;
 
   // perimeter
@@ -189,7 +189,7 @@ function spaceInvader() {
     bulletY += bulletSpeed;
   }
 
-  // bullet boundary
+  bullet boundary
   if (bulletY > y / 16) {
     bulletState === "ready";
   }
@@ -204,12 +204,14 @@ function spaceInvader() {
 
 // displays laser cannon
 function displayLaserCannon(){
+  imageMode(CENTER);
   image(laserCannon, playerX, playerY, cannonSize, cannonSize);
 }
 
 // diplsays bullet
 function displayBullet(){
   if (state === "Space Invader"){
+    imageMode(CENTER);
     image(bullet, bulletX, bulletY, bulletSize, bulletSize);
   }
  
