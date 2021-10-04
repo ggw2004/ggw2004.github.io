@@ -32,7 +32,7 @@ let direction;
 // preloads varibales and sprites
 function preload() {
   laserCannon = loadImage ("assets/Laser_Cannon.png");
-  bullet = loadImage ("assets/laser/png")
+  bullet = loadImage ("assets/laser.png");
 }
 
 // window setup
@@ -210,7 +210,7 @@ function displayLaserCannon(){
 // diplsays bullet
 function displayBullet(){
   if (state === "Space Invader"){
-    image(bullet, bulletX, bulletY, bulletSize, bulletSize)
+    image(bullet, bulletX, bulletY, bulletSize, bulletSize);
   }
  
 }
