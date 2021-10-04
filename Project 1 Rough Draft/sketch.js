@@ -41,9 +41,6 @@ function setup() {
   x = width;
   y = height;
   
-  // Space Invader Control Variables
-  playerX = x / 2;
-  playerY = y / 7 * 6;
   
   
   // Snake Game Control Variables
@@ -67,10 +64,17 @@ function draw() {
     chooseGame();
   }
   
+  // set up Space Invader
+  if (state === "Initializing Space Invader") {
+    spaceInvaderSetup();
+  }
+
   // play Space Invader
-  if (state === "Space Invader"){
+  else if (state === "Space Invader"){
     spaceInvader();
   }
+
+  // console.log(bulletY);
 
 }
 
@@ -141,7 +145,7 @@ function chooseGame() {
     mouseY >= y / 2 - textBoxBuffer - gameOptionHeight / 2 &&
     mouseIsPressed
   ) {
-    state = "Space Invader";
+    state = "Initializing Space Invader";
   }
   
   
@@ -156,12 +160,21 @@ function chooseGame() {
 
 }
 
-// Spacce Invader code
-function spaceInvader() {
-
+// Setup space invader
+function spaceInvaderSetup() {
+  // Space Invader Control Variables
+  playerX = x / 2;
+  playerY = y / 7 * 6;
   bulletX = playerX;
   bulletY = playerY - 20;
   bulletSpeed = 5;
+  state = "Space Invader";
+}
+
+// Space Invader code
+function spaceInvader() {
+  console.log (playerX);
+
 
   // perimeter
   if (playerX < 0 + spaceInvaderPerimeter){
@@ -186,12 +199,13 @@ function spaceInvader() {
     // creates bullet
     displayBullet();
     // moves bullet
-    bulletY += bulletSpeed;
+    bulletY -= bulletSpeed;
   }
 
-  bullet boundary
-  if (bulletY > y / 16) {
-    bulletState === "ready";
+  // bullet boundary
+  if (bulletY < y / 16) {
+    bulletState = "ready";
+
   }
 
 
@@ -243,6 +257,8 @@ function keyPressed() {
     // new bullet is ready to be fired
     if (bulletState === "ready"){
       if (keyCode === 32 || keyCode === 87 || keyCode === 38){
+        bulletX = playerX;
+        bulletY = playerY - 20;
         bulletState = "fire";
       }
     }
