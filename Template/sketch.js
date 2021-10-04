@@ -1,6 +1,6 @@
-// Project 1
-// George Williams
-// Friday, September 22, 2021
+// Title Name
+// Creator Name
+// Date
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
