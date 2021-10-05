@@ -3,10 +3,14 @@
 // Friday, September 22, 2021
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// I am not asking you to grade me for my above and beyond as it was a complete fail; however, would you be able to assist me with loading a sound file later as it will no longer be for marks
 
 
-// global variables
+// global variables 
+// NOTE: I am AWARE that I counld have made it so that the all the variables that
+// have not yet been assigened any values are in one long list in a single line of code; 
+// however, I persoanlly find individual lines of code easier on the eyes and makes it 
+// much simplier to locate my variables.
 let x;
 let y;
 let w;
@@ -23,7 +27,10 @@ let bulletX;
 let bulletY;
 let bulletState = "ready";
 let bulletSpeed;
-let bulletSize = 100;
+let spaceInvaderLaserSound;
+// let bulletSize = 50;
+let bulletWidth;
+let bulletHeight;
 let laserCannon;
 let cannonSize = 45;
 let spaceInvaderPerimeter = 300;
@@ -33,6 +40,10 @@ let direction;
 function preload() {
   laserCannon = loadImage ("assets/Laser_Cannon.png");
   bullet = loadImage ("assets/laser.png");
+
+  // spaceInvaderLaserSound = loadSound("assets/Laser.wav");
+  // console.log(loudSound("Laser.wav"));
+
 }
 
 // window setup
@@ -41,7 +52,7 @@ function setup() {
   x = width;
   y = height;
   
-  
+
   
   // Snake Game Control Variables
   
@@ -162,12 +173,14 @@ function chooseGame() {
 
 // Setup space invader
 function spaceInvaderSetup() {
-  // Space Invader Control Variables
+  // Space Invader initial Variables
   playerX = x / 2;
   playerY = y / 7 * 6;
   bulletX = playerX;
   bulletY = playerY - 20;
   bulletSpeed = 5;
+  bulletWidth = 250;
+  bulletHeight = 75;
   state = "Space Invader";
 }
 
@@ -196,8 +209,12 @@ function spaceInvader() {
 
   // bullet is fired
   if (bulletState === "fire") {
-    // creates bullet
+    // creates bullet and plays sound
     displayBullet();
+    // spaceInvaderLaserSound.play;
+    // spaceInvaderLaserSound.setVolume(1.0);
+
+
     // moves bullet
     bulletY -= bulletSpeed;
   }
@@ -226,7 +243,7 @@ function displayLaserCannon(){
 function displayBullet(){
   if (state === "Space Invader"){
     imageMode(CENTER);
-    image(bullet, bulletX, bulletY, bulletSize, bulletSize);
+    image(bullet, bulletX, bulletY, bulletWidth, bulletHeight);
   }
  
 }
