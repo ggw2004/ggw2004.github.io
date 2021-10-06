@@ -57,7 +57,7 @@ function setup() {
   // Snake Game Control Variables
   
   
-  // Astroid Control Variables
+  // Asteroid Control Variables
 }
 
 
@@ -162,11 +162,11 @@ function chooseGame() {
   
 
   
-  // astroid game box
+  // asteroid game box
   fill("black");
   rect(x / 2, y /3 * 2 - textBoxBuffer, gameOptionWidth, gameOptionHeight);
   fill("white");
-  text("Astroid", x / 2, y / 3 * 2);
+  text("Asteroid", x / 2, y / 3 * 2);
   
 
 }
