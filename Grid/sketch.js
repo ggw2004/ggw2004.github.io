@@ -6,7 +6,7 @@
 // - describe what you did to take this project "above and beyond"
 
 
-let gridSize= 40;
+let gridSize= 30;
 
 let grid;
 
@@ -18,6 +18,23 @@ function setup() {
 function draw() {
   background(220);
   displayGrid();
+
+}
+
+function mousePressed() {
+  let cellWidth = width / gridSize;
+  let cellHeight = height / gridSize;
+  
+  let cellX = Math.floor(mouseX / cellWidth);
+  let cellY = Math.floor(mouseY/cellHeight);
+
+  if (grid[cellY][cellX] === 1) {
+    grid[cellY][cellX] = 0;
+  }
+
+  else if (grid[cellY][cellX] === 0) {
+    grid[cellY][cellX] = 1;
+  }
 
 }
 
