@@ -41,7 +41,7 @@ function preload() {
   laserCannon = loadImage ("assets/Laser_Cannon.png");
   bullet = loadImage ("assets/laser.png");
 
-  // spaceInvaderLaserSound = loadSound("assets/Laser.wav");
+  spaceInvaderLaserSound = loadSound("assets/Laser.wav");
   // console.log(loudSound("Laser.wav"));
 
 }
@@ -276,6 +276,7 @@ function keyPressed() {
       if (keyCode === 32 || keyCode === 87 || keyCode === 38){
         bulletX = playerX;
         bulletY = playerY - 20;
+        spaceInvaderLaserSound.play();
         bulletState = "fire";
       }
     }
