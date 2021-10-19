@@ -1,6 +1,6 @@
-// Project Titled
-// Name
-// Date
+// Grid Base Game
+// George Williams
+// 10/19/2021
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
@@ -14,5 +14,4 @@ function draw() {
   background(220);
 
 
-  rect(mouseX, mouseY, 150, 100);
 }
