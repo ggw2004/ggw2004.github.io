@@ -13,7 +13,7 @@ let letterSize = 48;
 let textBoxBuffer = 15;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth *0.8, windowHeight * 0.8);
   
 }
 
@@ -60,3 +60,6 @@ function startingWindow() {
   }
 
 }
+
+
+// center your canvas
