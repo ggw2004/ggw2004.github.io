@@ -11,9 +11,18 @@ let backgroundColor = "purple";
 let state = "Start Screen";
 let letterSize = 48;
 let textBoxBuffer = 15;
+let grid;
+let gridSize = 24;
+let cellWidth, cellHeight;
 
 function setup() {
-  createCanvas(windowWidth *0.8, windowHeight * 0.8);
+  if (windowWidth < windowHeight) {
+    createCanvas(windowWidth * 0.8, windowWidth * 0.8);
+  }
+  else {
+    createCanvas (windowHeight * 0.8, windowHeight * 0.8);
+  }
+
   
 }
 
@@ -29,6 +38,24 @@ function draw() {
     startingWindow();
   }
 
+  // game setup
+  if (state === "Game Setup") {
+    gameSetup();
+  }
+
+  // main game loop
+  if (state === "Mine Sweeper") {
+    mineSweeper();
+  }
+
+}
+
+function mousePressed() {
+  let cellWidth = width / gridSize;
+  let cellHeight = height / gridSize;
+  
+  let cellX = Math.floor(mouseX / cellWidth);
+  let cellY = Math.floor(mouseY/cellHeight);
 }
 
 // starting window
@@ -41,7 +68,7 @@ function startingWindow() {
   textSize(letterSize);
   textAlign(CENTER);
   rectMode(CENTER);
-  text("Welcome Player", width / 2, height / 2);
+  text("Welcome Soldier", width / 2, height / 2);
   rect(width / 2, height * 3 / 5, startingBoxWidth, startingBoxHeight);
   fill("white");
   text("Start", width / 2, height * 3 / 5 + textBoxBuffer);
@@ -56,10 +83,45 @@ function startingWindow() {
     // other method
     // if ((dist(mouseX, mouseY, x/2, y*3/5) < 55) && mouseIsPressed) {}
 
-    state = "gameOptions";
+    state = "Game Setup";
   }
 
 }
 
+function gameSetup () {
+  grid = createEmpty2DArray(gridSize, gridSize);
+  state = "Mine Sweeper";
+}
 
-// center your canvas
+function mineSweeper() {
+  displayGrid();
+}
+
+function createEmpty2DArray(rows, cols){
+  let grid = [];
+  for (let y=0; y < rows; y++) {
+    grid.push([]);
+    for (let x = 0; x < cols; x++) {
+      grid[y].push(0);
+    }
+  }
+  return grid;
+}
+
+function displayGrid() {
+  rectMode(CORNER);
+  let cellWidth = width / gridSize;
+  let cellHeight = height / gridSize;
+  
+  for (let y = 0; y < gridSize; y++) {
+    for (let x = 0; x < gridSize; x++) {
+      if (grid[y][x] === 0){
+        fill("white");
+      }
+      else if (grid[y][x] === 1) {
+        fill("black");
+      }
+      rect(x*cellWidth,y*cellHeight, cellWidth, cellHeight);
+    }
+  }
+}
