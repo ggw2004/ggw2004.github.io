@@ -15,6 +15,16 @@ let grid;
 let gridSize = 24;
 let cellWidth, cellHeight;
 
+let bombImg;
+let grassImg1;
+let grassImg2;
+
+function preload() {
+  bombImg = loadImage("assets/bomb_0.png");
+  grassImg1 = loadImage("assets/grass00.png");
+  grassImg2 = loadImage("assets/grass03.png");
+}
+
 function setup() {
   if (windowWidth < windowHeight) {
     createCanvas(windowWidth * 0.8, windowWidth * 0.8);
@@ -89,7 +99,7 @@ function startingWindow() {
 }
 
 function gameSetup () {
-  grid = createEmpty2DArray(gridSize, gridSize);
+  grid = createAlternating2DArray(gridSize, gridSize);
   state = "Mine Sweeper";
 }
 
@@ -97,12 +107,22 @@ function mineSweeper() {
   displayGrid();
 }
 
-function createEmpty2DArray(rows, cols){
+function createAlternating2DArray(rows, cols){
+  let one = true;
   let grid = [];
   for (let y=0; y < rows; y++) {
     grid.push([]);
+    one = !one;
     for (let x = 0; x < cols; x++) {
-      grid[y].push(0);
+      if (one === true) {
+        grid[y].push(1);
+        one = !one;
+      }
+      else if (one === false) {
+        grid[y].push(0);
+        one = !one;
+      }
+
     }
   }
   return grid;
@@ -116,12 +136,12 @@ function displayGrid() {
   for (let y = 0; y < gridSize; y++) {
     for (let x = 0; x < gridSize; x++) {
       if (grid[y][x] === 0){
-        fill("white");
+        image(grassImg1, x*cellWidth,y*cellHeight, cellWidth, cellHeight);
       }
       else if (grid[y][x] === 1) {
-        fill("black");
+        image(grassImg2, x*cellWidth,y*cellHeight, cellWidth, cellHeight);
       }
-      rect(x*cellWidth,y*cellHeight, cellWidth, cellHeight);
+      // rect(x*cellWidth,y*cellHeight, cellWidth, cellHeight);
     }
   }
 }
