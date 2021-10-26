@@ -13,7 +13,10 @@ let letterSize = 48;
 let textBoxBuffer = 15;
 let grid;
 let gridSize = 24;
+let bombGrid;
+let bombGridSize = 24;
 let cellWidth, cellHeight;
+let bombCounter = 0;
 
 let bombImg;
 let grassImg1;
@@ -66,6 +69,10 @@ function mousePressed() {
   
   let cellX = Math.floor(mouseX / cellWidth);
   let cellY = Math.floor(mouseY/cellHeight);
+
+  if (bombGrid[cellY][cellX] === 3) {
+    state = "Game Over";
+  }
 }
 
 // starting window
@@ -100,8 +107,34 @@ function startingWindow() {
 
 function gameSetup () {
   grid = createAlternating2DArray(gridSize, gridSize);
+  bombGrid = createBomb2DArray(gridSize, gridSize);
   state = "Mine Sweeper";
 }
+
+function createBomb2DArray(rows, cols) {
+
+  let bombGrid = [];
+  for (let y=0; y < rows; y++) {
+    bombGrid.push([]);
+    for (let x = 0; x < cols; x++) {
+      if (bombCounter < 20) {
+        if (random(100) < 5) {
+          bombGrid[y].push(3);
+        }
+
+        else{
+          bombGrid[y].push(4);
+  
+        }
+      }
+
+    }
+  }
+  return bombGrid;
+}
+
+// }
+
 
 function mineSweeper() {
   displayGrid();
