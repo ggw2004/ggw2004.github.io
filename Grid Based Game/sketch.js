@@ -7,6 +7,10 @@
 
 
 
+// look up flood.fill
+
+
+// global variables
 let backgroundColor = "lime";
 let state = "Start Screen";
 let letterSize = 48;
@@ -18,6 +22,8 @@ let bombGridSize = 24;
 let cellWidth, cellHeight;
 let bombCounter = 0;
 
+
+// image varibales
 let bombImg;
 let grassImg1;
 let grassImg2;
@@ -36,6 +42,9 @@ function setup() {
     createCanvas (windowHeight * 0.8, windowHeight * 0.8);
   }
 
+
+  cellWidth = width / gridSize;
+  cellHeight = height / gridSize;
   
 }
 
@@ -62,17 +71,20 @@ function draw() {
   }
 
   // You Lose
+  if (state === "Game Over") {
+    // gameOver();
+  }
 
 }
 
 
 // mouse controls
 function mousePressed() {
-  let cellWidth = width / gridSize;
-  let cellHeight = height / gridSize;
+
   
   let cellX = Math.floor(mouseX / cellWidth);
   let cellY = Math.floor(mouseY/cellHeight);
+  console.log(cellY, cellX);
 
   if (bombGrid[cellY][cellX] === 3) {
     state = "Game Over";
@@ -172,11 +184,24 @@ function createAlternating2DArray(rows, cols){
 }
 
 
+// display bomb
+// function displayBomb() {
+//   rectMode(CORNER);
+//
+//   for (let y = 0; y < gridSize; y++) {
+//     for (let x = 0; x < gridSize; x++) {
+//       if (grid[y][x] === 3){
+//         image(bombImg, x*cellWidth,y*cellHeight, cellWidth, cellHeight);
+//       }
+//     }
+//   }
+
+// }
+
 // display field
 function displayGrid() {
   rectMode(CORNER);
-  let cellWidth = width / gridSize;
-  let cellHeight = height / gridSize;
+
   
   for (let y = 0; y < gridSize; y++) {
     for (let x = 0; x < gridSize; x++) {
@@ -190,3 +215,10 @@ function displayGrid() {
     }
   }
 }
+
+
+// hit a bomb
+// function gameOver() {
+//   displayBomb();
+// }
+
