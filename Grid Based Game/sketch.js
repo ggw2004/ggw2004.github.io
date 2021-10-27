@@ -7,7 +7,7 @@
 
 
 
-let backgroundColor = "purple";
+let backgroundColor = "lime";
 let state = "Start Screen";
 let letterSize = 48;
 let textBoxBuffer = 15;
@@ -61,8 +61,12 @@ function draw() {
     mineSweeper();
   }
 
+  // You Lose
+
 }
 
+
+// mouse controls
 function mousePressed() {
   let cellWidth = width / gridSize;
   let cellHeight = height / gridSize;
@@ -105,19 +109,23 @@ function startingWindow() {
 
 }
 
+
+// initial setup
 function gameSetup () {
   grid = createAlternating2DArray(gridSize, gridSize);
   bombGrid = createBomb2DArray(gridSize, gridSize);
   state = "Mine Sweeper";
 }
 
+
+// place bombs
 function createBomb2DArray(rows, cols) {
 
   let bombGrid = [];
   for (let y=0; y < rows; y++) {
     bombGrid.push([]);
     for (let x = 0; x < cols; x++) {
-      if (bombCounter < 20) {
+      if (bombCounter < 30) {
         if (random(100) < 5) {
           bombGrid[y].push(3);
         }
@@ -135,11 +143,13 @@ function createBomb2DArray(rows, cols) {
 
 // }
 
-
+// 
 function mineSweeper() {
   displayGrid();
 }
 
+
+// create mine field
 function createAlternating2DArray(rows, cols){
   let one = true;
   let grid = [];
@@ -161,6 +171,8 @@ function createAlternating2DArray(rows, cols){
   return grid;
 }
 
+
+// display field
 function displayGrid() {
   rectMode(CORNER);
   let cellWidth = width / gridSize;
