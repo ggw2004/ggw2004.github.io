@@ -20,7 +20,7 @@ let gridSize = 24;
 let bombGrid;
 let bombGridSize = 24;
 let cellWidth, cellHeight;
-let bombCounter = 0;
+let numberOfBombs = 35;
 
 
 // image varibales
@@ -61,18 +61,18 @@ function draw() {
   }
 
   // game setup
-  if (state === "Game Setup") {
+  else if (state === "Game Setup") {
     gameSetup();
   }
 
   // main game loop
-  if (state === "Mine Sweeper") {
+  else if (state === "Mine Sweeper") {
     mineSweeper();
   }
 
   // You Lose
-  if (state === "Game Over") {
-    // gameOver();
+  else if (state === "Game Over") {
+    gameOver();
   }
 
 }
@@ -81,13 +81,14 @@ function draw() {
 // mouse controls
 function mousePressed() {
 
+  if (state === "Mine Sweeper") {
+    let cellX = Math.floor(mouseX / cellWidth);
+    let cellY = Math.floor(mouseY/cellHeight);
+    console.log(cellY, cellX);
   
-  let cellX = Math.floor(mouseX / cellWidth);
-  let cellY = Math.floor(mouseY/cellHeight);
-  console.log(cellY, cellX);
-
-  if (bombGrid[cellY][cellX] === 3) {
-    state = "Game Over";
+    if (bombGrid[cellY][cellX] === 3) {
+      state = "Game Over";
+    }
   }
 }
 
@@ -113,8 +114,7 @@ function startingWindow() {
     mouseY >= height * 3 / 5 - startingBoxHeight / 2 &&
     mouseIsPressed
   ) {
-    // other method
-    // if ((dist(mouseX, mouseY, x/2, y*3/5) < 55) && mouseIsPressed) {}
+
 
     state = "Game Setup";
   }
@@ -130,30 +130,29 @@ function gameSetup () {
 }
 
 
-// place bombs
+// Bomb Grid
 function createBomb2DArray(rows, cols) {
-
+  // Create Grid
   let bombGrid = [];
   for (let y=0; y < rows; y++) {
     bombGrid.push([]);
     for (let x = 0; x < cols; x++) {
-      if (bombCounter < 30) {
-        if (random(100) < 5) {
-          bombGrid[y].push(3);
-        }
-
-        else{
-          bombGrid[y].push(4);
-  
-        }
-      }
-
+      bombGrid[y].push(4);
     }
+  }
+
+    // place bombs
+  for (let bombCounter = 0; bombCounter < numberOfBombs; bombCounter++) {
+    
+
+    // while (bombGrid[Math.round(random(gridSize))][Math.round(random(gridSize))] === 4) {
+    //   bombGrid[Math.round(random(gridSize))][Math.round(random(gridSize))] === 3;
+    }
+    // console.log(Math.round(random(gridSize)));
   }
   return bombGrid;
 }
 
-// }
 
 // 
 function mineSweeper() {
@@ -185,18 +184,20 @@ function createAlternating2DArray(rows, cols){
 
 
 // display bomb
-// function displayBomb() {
-//   rectMode(CORNER);
-//
-//   for (let y = 0; y < gridSize; y++) {
-//     for (let x = 0; x < gridSize; x++) {
-//       if (grid[y][x] === 3){
-//         image(bombImg, x*cellWidth,y*cellHeight, cellWidth, cellHeight);
-//       }
-//     }
-//   }
+function displayBomb() {
+  rectMode(CORNER);
+  displayGrid();
+  for (let y = 0; y < gridSize; y++) {
+    for (let x = 0; x < gridSize; x++) {
+      if (bombGrid[y][x] === 3){
+        console.log("bomb");
+        image(bombImg, x*cellWidth,y*cellHeight, cellWidth, cellHeight);
+        noLoop();
+      }
+    }
+  }
 
-// }
+}
 
 // display field
 function displayGrid() {
@@ -218,7 +219,8 @@ function displayGrid() {
 
 
 // hit a bomb
-// function gameOver() {
-//   displayBomb();
-// }
+function gameOver() {
+  // console.log("wtf");
+  displayBomb();
+}
 
