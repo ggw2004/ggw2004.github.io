@@ -19,6 +19,8 @@ let grid;
 let gridSize = 24;
 let bombGrid;
 let bombGridSize = 24;
+let bombX;
+let bombY;
 let cellWidth, cellHeight;
 let numberOfBombs = 35;
 
@@ -130,6 +132,10 @@ function gameSetup () {
 }
 
 
+function floodFill(mouseX, mouseY) {
+    
+}
+
 // Bomb Grid
 function createBomb2DArray(rows, cols) {
   // Create Grid
@@ -141,17 +147,27 @@ function createBomb2DArray(rows, cols) {
     }
   }
 
-    // place bombs
+  // place bombs
   for (let bombCounter = 0; bombCounter < numberOfBombs; bombCounter++) {
-    
+    let bombed = false;
+    while (!bombed) {
+      // set bomb coordinates
+      bombX = Math.round(random (0, bombGridSize -1));
+      bombY = Math.round(random(0, bombGridSize - 1));
 
-    // while (bombGrid[Math.round(random(gridSize))][Math.round(random(gridSize))] === 4) {
-    //   bombGrid[Math.round(random(gridSize))][Math.round(random(gridSize))] === 3;
+      if (bombGrid[bombY][bombX] === 4) {
+        bombGrid[bombY][bombX] = 3;
+        bombed = true;
+      }
+
+
+
     }
-    // console.log(Math.round(random(gridSize)));
+
   }
   return bombGrid;
 }
+
 
 
 // 

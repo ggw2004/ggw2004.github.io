@@ -15,7 +15,7 @@ function preload(){
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  for (let i = 0; i < 50; i ++) {
+  for (let i = 0; i < 10; i ++) {
     let x = random(100, width - 100);
     let y = random(100, height - 100);
     let theBall = new Ball(x, y, jeffImg);
@@ -40,8 +40,18 @@ function draw() {
 
 
 function mousePressed() {
-  let theBall = new Ball(mouseX, mouseY, jeffImg);
-  ballArray.push(theBall);
+  for (let i = ballArray.length - 1; i >= 0; i--) {
+    if (ballArray[i].isPointInBall(mouseX, mouseY)) {
+      ballArray.splice(i, 1);
+    }
+  }
+}
+
+function keyPressed() {
+  if (key === " ") {
+    let theBall = new Ball(mouseX, mouseY, jeffImg);
+    ballArray.push(theBall);
+  }
 }
 
 class Ball {
@@ -95,4 +105,16 @@ class Ball {
     }
 
   }
+
+  isPointInBall(x,y) {
+    if (dist(x, y, this.x, this.y) < this.radius) {
+      // inside ball
+      return true;
+    }
+
+    else {
+      return false;
+    }
+  }
+
 }
