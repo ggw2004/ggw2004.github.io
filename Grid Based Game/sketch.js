@@ -23,6 +23,7 @@ let bombX;
 let bombY;
 let cellWidth, cellHeight;
 let numberOfBombs = 35;
+let whichGrass;
 
 
 // image varibales
@@ -178,19 +179,19 @@ function mineSweeper() {
 
 // create mine field
 function createAlternating2DArray(rows, cols){
-  let one = true;
+  whichGrass = true;
   let grid = [];
   for (let y=0; y < rows; y++) {
     grid.push([]);
-    one = !one;
+    whichGrass = !whichGrass;
     for (let x = 0; x < cols; x++) {
-      if (one === true) {
+      if (whichGrass === true) {
         grid[y].push(1);
-        one = !one;
+        whichGrass = !whichGrass;
       }
-      else if (one === false) {
+      else if (whichGrass === false) {
         grid[y].push(0);
-        one = !one;
+        whichGrass = !whichGrass;
       }
 
     }
@@ -236,7 +237,6 @@ function displayGrid() {
 
 // hit a bomb
 function gameOver() {
-  // console.log("wtf");
   displayBomb();
 }
 
