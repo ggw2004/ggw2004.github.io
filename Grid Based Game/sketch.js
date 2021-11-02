@@ -235,6 +235,22 @@ function displayGrid() {
 }
 
 
+function neighbourCount(y, x) {
+
+  for (let y=0; y<gridSize; y++) {
+    for (let x=0; x<gridSize; x++) {
+      let neighbours = 0;
+
+      // nearby bombs
+      for (let i=-1; i<=1; i++) {
+        for (let j=-1; j<=1; j++) {
+          if (y+i>=0 && x+j>=0 && y+i<gridSize && x+j<gridSize) {
+            neighbours += grid[y+i][x+j];
+          }
+        }
+      }
+}
+
 // hit a bomb
 function gameOver() {
   displayBomb();
