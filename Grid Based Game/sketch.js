@@ -21,6 +21,8 @@ let bombGrid;
 let bombGridSize = 24;
 let bombX;
 let bombY;
+let neighbourGrid;
+let emptyGrid;
 let cellWidth, cellHeight;
 let numberOfBombs = 35;
 let whichGrass;
@@ -129,6 +131,7 @@ function startingWindow() {
 function gameSetup () {
   grid = createAlternating2DArray(gridSize, gridSize);
   bombGrid = createBomb2DArray(gridSize, gridSize);
+  neighbourGrid = neighbourCount2DArray(gridSize, gridSize);
   state = "Mine Sweeper";
 }
 
@@ -235,21 +238,45 @@ function displayGrid() {
 }
 
 
-function neighbourCount(y, x) {
-
+function neighbourCount2DArray(rows, cols) {
+  neighbourGrid = createEmpty2DArray(rows, cols);
   for (let y=0; y<gridSize; y++) {
     for (let x=0; x<gridSize; x++) {
       let neighbours = 0;
 
-      // nearby bombs
+      //look for bombsS
       for (let i=-1; i<=1; i++) {
         for (let j=-1; j<=1; j++) {
           if (y+i>=0 && x+j>=0 && y+i<gridSize && x+j<gridSize) {
-            neighbours += grid[y+i][x+j];
+            if (bombGrid[y+i][x+j] === 3) {
+              neighbours += 1;
+            }
           }
         }
       }
+
+      // do not count your cell if it is a bomb
+      if (bombGrid[y][x] === 3) {
+        neighbours -= 1;
+      }
+      neighbourGrid[y][x] = neighbours;
+    }
+  }
+  return neighbourGrid;
 }
+
+
+function createEmpty2DArray(rows, cols, numToFill = 0) {
+  let emptyGrid = [];
+  for (let y=0; y < rows; y++) {
+    emptyGrid.push([]);
+    for (let x = 0; x < cols; x++) {
+      emptyGrid[y].push(numToFill);
+    }
+  }
+  return emptyGrid;
+}
+
 
 // hit a bomb
 function gameOver() {
