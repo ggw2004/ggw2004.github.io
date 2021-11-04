@@ -32,11 +32,13 @@ let whichGrass;
 let bombImg;
 let grassImg1;
 let grassImg2;
+let mudImg;
 
 function preload() {
   bombImg = loadImage("assets/bomb_0.png");
   grassImg1 = loadImage("assets/grass00.png");
   grassImg2 = loadImage("assets/grass03.png");
+  mudImg = loadImage("assets/mud1.png");
 }
 
 function setup() {
@@ -89,15 +91,23 @@ function mousePressed() {
   if (state === "Mine Sweeper") {
     let cellX = Math.floor(mouseX / cellWidth);
     let cellY = Math.floor(mouseY/cellHeight);
-    console.log(cellY, cellX);
+    // console.log(cellY, cellX);
   
-    if (bombGrid[cellY][cellX] === 3) {
+    if (bombGrid[cellY][cellX] === 4) {
       state = "Game Over";
+    }
+
+    else if (bombGrid[cellY][cellX] === 5) {
+      if (grid[cellY][cellX] === 0 || grid[cellY][cellX] === 1) {
+        grid[cellY][cellX] === 2;
+        // image(mudImg, cellX*cellWidth, cellY*cellHeight, cellWidth, cellHeight);
+        // console.log(cellX, cellY);
+      }
     }
   }
 }
 
-// starting window
+// starting window 
 function startingWindow() {
   let startingBoxWidth = 115;
   let startingBoxHeight = 55;
@@ -147,7 +157,7 @@ function createBomb2DArray(rows, cols) {
   for (let y=0; y < rows; y++) {
     bombGrid.push([]);
     for (let x = 0; x < cols; x++) {
-      bombGrid[y].push(4);
+      bombGrid[y].push(5);
     }
   }
 
@@ -159,8 +169,8 @@ function createBomb2DArray(rows, cols) {
       bombX = Math.round(random (0, bombGridSize -1));
       bombY = Math.round(random(0, bombGridSize - 1));
 
-      if (bombGrid[bombY][bombX] === 4) {
-        bombGrid[bombY][bombX] = 3;
+      if (bombGrid[bombY][bombX] === 5) {
+        bombGrid[bombY][bombX] = 4;
         bombed = true;
       }
 
@@ -209,7 +219,7 @@ function displayBomb() {
   displayGrid();
   for (let y = 0; y < gridSize; y++) {
     for (let x = 0; x < gridSize; x++) {
-      if (bombGrid[y][x] === 3){
+      if (bombGrid[y][x] === 4){
         console.log("bomb");
         image(bombImg, x*cellWidth,y*cellHeight, cellWidth, cellHeight);
         noLoop();
@@ -232,6 +242,11 @@ function displayGrid() {
       else if (grid[y][x] === 1) {
         image(grassImg2, x*cellWidth,y*cellHeight, cellWidth, cellHeight);
       }
+      else if (grid[y][x] === 2) {
+        image(mudImg, x*cellWidth,y*cellHeight, cellWidth, cellHeight);
+      }
+
+
       // rect(x*cellWidth,y*cellHeight, cellWidth, cellHeight);
     }
   }
@@ -248,7 +263,7 @@ function neighbourCount2DArray(rows, cols) {
       for (let i=-1; i<=1; i++) {
         for (let j=-1; j<=1; j++) {
           if (y+i>=0 && x+j>=0 && y+i<gridSize && x+j<gridSize) {
-            if (bombGrid[y+i][x+j] === 3) {
+            if (bombGrid[y+i][x+j] === 4) {
               neighbours += 1;
             }
           }
@@ -256,7 +271,7 @@ function neighbourCount2DArray(rows, cols) {
       }
 
       // do not count your cell if it is a bomb
-      if (bombGrid[y][x] === 3) {
+      if (bombGrid[y][x] === 4) {
         neighbours -= 1;
       }
       neighbourGrid[y][x] = neighbours;
