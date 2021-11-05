@@ -24,7 +24,7 @@ let bombY;
 let neighbourGrid;
 let emptyGrid;
 let cellWidth, cellHeight;
-let numberOfBombs = 35;
+let numberOfBombs = 40;
 let whichGrass;
 
 
@@ -99,8 +99,9 @@ function mousePressed() {
 
     else if (bombGrid[cellY][cellX] === 5) {
       if (grid[cellY][cellX] === 0 || grid[cellY][cellX] === 1) {
-        grid[cellY][cellX] === 2;
-        // image(mudImg, cellX*cellWidth, cellY*cellHeight, cellWidth, cellHeight);
+        grid[cellY][cellX] = 2;
+        image(mudImg, cellX*cellWidth, cellY*cellHeight, cellWidth, cellHeight);
+        displayGrid();
         // console.log(cellX, cellY);
       }
     }
@@ -252,6 +253,11 @@ function displayGrid() {
   }
 }
 
+// display neighbours
+function displayNeighbours() {
+
+}
+
 
 function neighbourCount2DArray(rows, cols) {
   neighbourGrid = createEmpty2DArray(rows, cols);
@@ -297,4 +303,5 @@ function createEmpty2DArray(rows, cols, numToFill = 0) {
 function gameOver() {
   displayBomb();
 }
+
 
