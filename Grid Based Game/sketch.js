@@ -13,8 +13,6 @@
 // global variables
 let backgroundColor = "lime";
 let state = "Start Screen";
-let letterSize = 48;
-let textBoxBuffer = 15;
 let grid;
 let gridSize = 24;
 let bombGrid;
@@ -26,7 +24,24 @@ let emptyGrid;
 let cellWidth, cellHeight;
 let numberOfBombs = 40;
 let whichGrass;
+let pauseTime;
 
+// button variables
+let startingButton;
+let replayButton;
+let startingBoxWidth = 115;
+let startingBoxHeight = 55;
+let replayBoxWidth = 200;
+let replayBoxHeight = 55;
+let hoverColor = "grey";
+let notHoverColor = "black";
+
+// text variables
+let inBoxTextColor = "white";
+let outBoxTextColor = "black";
+let letterSize = 48;
+let textBoxBuffer = 15;
+let replayTextBoxBuffer = 4;
 
 // image varibales
 let bombImg;
@@ -52,7 +67,9 @@ function setup() {
 
   cellWidth = width / gridSize;
   cellHeight = height / gridSize;
-  
+  startingButton = new Button(width/2 - startingBoxWidth/2, height/2 + startingBoxHeight/2, startingBoxWidth, startingBoxHeight, hoverColor, notHoverColor, letterSize);
+  replayButton = new Button (width/2 - replayBoxWidth/2, height/2 + replayBoxHeight/2, replayBoxWidth, replayBoxHeight, hoverColor, notHoverColor, letterSize);
+  pauseTime = new Timer(5000);
 }
 
 
@@ -87,11 +104,15 @@ function draw() {
 
 // mouse controls
 function mousePressed() {
+  if (state === "Start Screen") {
+    if (startingButton.isPointInButton(mouseX, mouseY)) {
+      state = "Game Setup";
+    }
+  }
 
   if (state === "Mine Sweeper") {
     let cellX = Math.floor(mouseX / cellWidth);
     let cellY = Math.floor(mouseY/cellHeight);
-    // console.log(cellY, cellX);
   
     if (bombGrid[cellY][cellX] === 4) {
       state = "Game Over";
@@ -103,37 +124,42 @@ function mousePressed() {
       }
     }
   }
+
+  if (state === "Game Over") {
+    if (replayButton.isPointInButton(mouseX, mouseY)) {
+      state = "Game Setup";
+    }
+  }
 }
 
 // starting window 
 function startingWindow() {
-  let startingBoxWidth = 115;
-  let startingBoxHeight = 55;
   
-  
-  fill(0);
-  textSize(letterSize);
-  textAlign(CENTER);
-  rectMode(CENTER);
-  text("Welcome Soldier", width / 2, height / 2);
-  rect(width / 2, height * 3 / 5, startingBoxWidth, startingBoxHeight);
-  fill("white");
-  text("Start", width / 2, height * 3 / 5 + textBoxBuffer);
+  startingButton.display();
+  displayText();
 
-  if (
-    mouseX >= width / 2 - startingBoxWidth / 2 &&
-    mouseX <= width / 2 + startingBoxWidth / 2 &&
-    mouseY <= height * 3 / 5 + startingBoxHeight / 2 &&
-    mouseY >= height * 3 / 5 - startingBoxHeight / 2 &&
-    mouseIsPressed
-  ) {
-
-
-    state = "Game Setup";
-  }
 
 }
 
+function displayText(){
+  if (state === "Start Screen") {
+    fill(outBoxTextColor);
+    textSize(letterSize);
+    textAlign(CENTER);
+    text("Welcome Soldier", width / 2, height / 2);
+    fill(inBoxTextColor);
+    text("Start", width / 2, height * 3 / 5 + textBoxBuffer);
+  }
+
+  if (state === "Game Over") {
+    fill(outBoxTextColor);
+    textSize(letterSize);
+    textAlign(CENTER);
+    text("You stepped on a bomb", width / 2, height / 2);
+    fill(inBoxTextColor);
+    text("Replay", width / 2, height * 3 / 5 - replayTextBoxBuffer);
+  }
+}
 
 // initial setup
 function gameSetup () {
@@ -211,12 +237,14 @@ function createAlternating2DArray(rows, cols){
 function displayBomb() {
   rectMode(CORNER);
   displayGrid();
-  for (let y = 0; y < gridSize; y++) {
-    for (let x = 0; x < gridSize; x++) {
-      if (bombGrid[y][x] === 4){
-        console.log("bomb");
-        image(bombImg, x*cellWidth,y*cellHeight, cellWidth, cellHeight);
-        noLoop();
+
+
+  for (let bombCounter = 0; bombCounter < numberOfBombs; bombCounter++) {
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        if (bombGrid[y][x] === 4){
+          image(bombImg, x*cellWidth,y*cellHeight, cellWidth, cellHeight);
+        }
       }
     }
   }
@@ -255,7 +283,7 @@ function displayNeighbours(y,x) {
   fill("black");
   textSize(gridSize*0.75);
   textAlign(CENTER, CENTER);
-  text(neighbourGrid[y][x], x * gridSize + gridSize / 2, y * gridSize + gridSize / 2); 
+  text(neighbourGrid[y][x], x * gridSize + gridSize / 2, y * gridSize + gridSize/1.75); 
   
 }
 
@@ -303,6 +331,58 @@ function createEmpty2DArray(rows, cols, numToFill = 0) {
 // hit a bomb
 function gameOver() {
   displayBomb();
+  pauseTime.reset();
+  if (pauseTime.isDone) {
+    console.log("wait");
+    replayButton.display();
+    displayText();
+  }
 }
 
 
+// Create Buttons
+class Button {
+  constructor(x, y, buttonWidth, buttonHeight, hoverColor, notHoverColor) {
+    this.x = x;
+    this.y = y;
+    this.width = buttonWidth;
+    this.height = buttonHeight;
+    this.notHoverColor = notHoverColor;
+    this.hoverColor = hoverColor;
+  
+  }
+
+  display() {
+    if(this.isPointInButton(mouseX, mouseY)){
+      fill(this.hoverColor);
+    }
+    else {
+      fill(this.notHoverColor);
+    }
+    noStroke();
+    rect(this.x, this.y, this.width, this.height);
+
+  }
+
+  isPointInButton(x, y) {
+    return x >= this.x && x <= this.x + this.width &&
+           y >= this.y && y <= this.y + this.height;
+  }
+}
+
+
+// timer to prevent pre-emptive replay
+class Timer {
+  constructor(waitTime) {
+    this.startTime = millis();
+    this.waitTime = waitTime;
+  }
+
+  isDone() {
+    return millis() > this.waitTime + this.startTime;
+  }
+
+  reset() {
+    this.startTime = millis();
+  }
+}
