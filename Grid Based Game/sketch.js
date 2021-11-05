@@ -100,9 +100,6 @@ function mousePressed() {
     else if (bombGrid[cellY][cellX] === 5) {
       if (grid[cellY][cellX] === 0 || grid[cellY][cellX] === 1) {
         grid[cellY][cellX] = 2;
-        image(mudImg, cellX*cellWidth, cellY*cellHeight, cellWidth, cellHeight);
-        displayGrid();
-        // console.log(cellX, cellY);
       }
     }
   }
@@ -174,11 +171,7 @@ function createBomb2DArray(rows, cols) {
         bombGrid[bombY][bombX] = 4;
         bombed = true;
       }
-
-
-
     }
-
   }
   return bombGrid;
 }
@@ -245,17 +238,25 @@ function displayGrid() {
       }
       else if (grid[y][x] === 2) {
         image(mudImg, x*cellWidth,y*cellHeight, cellWidth, cellHeight);
+        displayNeighbours(y,x);
       }
-
-
-      // rect(x*cellWidth,y*cellHeight, cellWidth, cellHeight);
     }
   }
 }
 
 // display neighbours
-function displayNeighbours() {
-
+function displayNeighbours(y,x) {
+  
+  // draw the square
+  fill("white");
+  strokeWeight(1);
+  
+  // show the number
+  fill("black");
+  textSize(gridSize*0.75);
+  textAlign(CENTER, CENTER);
+  text(neighbourGrid[y][x], x * gridSize + gridSize / 2, y * gridSize + gridSize / 2); 
+  
 }
 
 
