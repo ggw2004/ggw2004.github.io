@@ -126,8 +126,12 @@ function mousePressed() {
   }
 
   if (state === "Game Over") {
-    if (replayButton.isPointInButton(mouseX, mouseY)) {
-      state = "Game Setup";
+    pauseTime.reset();
+    // pauseTime.startTime();
+    if (pauseTime.isDone) {
+      if (replayButton.isPointInButton(mouseX, mouseY)) {
+        state = "Game Setup";
+      } 
     }
   }
 }
@@ -280,10 +284,12 @@ function displayNeighbours(y,x) {
   strokeWeight(1);
   
   // show the number
-  fill("black");
-  textSize(gridSize*0.75);
-  textAlign(CENTER, CENTER);
-  text(neighbourGrid[y][x], x * gridSize + gridSize / 2, y * gridSize + gridSize/1.75); 
+  if (neighbourGrid[y][x] !== 0) {
+    fill("black");
+    textSize(gridSize*0.75);
+    textAlign(CENTER, CENTER);
+    text(neighbourGrid[y][x], x * gridSize + gridSize / 2, y * gridSize + gridSize/1.75); 
+  }
   
 }
 
@@ -331,12 +337,8 @@ function createEmpty2DArray(rows, cols, numToFill = 0) {
 // hit a bomb
 function gameOver() {
   displayBomb();
-  pauseTime.reset();
-  if (pauseTime.isDone) {
-    console.log("wait");
-    replayButton.display();
-    displayText();
-  }
+  replayButton.display();
+  displayText();
 }
 
 
