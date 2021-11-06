@@ -31,8 +31,8 @@ let startingButton;
 let replayButton;
 let startingBoxWidth = 115;
 let startingBoxHeight = 55;
-let replayBoxWidth = 200;
-let replayBoxHeight = 55;
+let replayBoxWidth = 170;
+let replayBoxHeight = 60;
 let hoverColor = "grey";
 let notHoverColor = "black";
 
@@ -41,7 +41,7 @@ let inBoxTextColor = "white";
 let outBoxTextColor = "black";
 let letterSize = 48;
 let textBoxBuffer = 15;
-let replayTextBoxBuffer = 4;
+let replayTextBoxBuffer = 2;
 
 // image varibales
 let bombImg;
@@ -157,7 +157,7 @@ function displayText(){
     textAlign(CENTER);
     text("You stepped on a bomb", width / 2, height / 2);
     fill(inBoxTextColor);
-    text("Replay", width / 2, height * 3 / 5 - replayTextBoxBuffer);
+    text("Replay", width / 2, height * 3 / 5 + replayTextBoxBuffer);
   }
 }
 
