@@ -358,7 +358,7 @@ function createEmpty2DArray(rows, cols, numToFill = 0) {
 
 // cleared minefield
 function clearedMinefield() {
-  if (cellsCleared > gridSize * gridSize - (numberOfBombs + 1)) {
+  if (cellsCleared >= gridSize * gridSize - (numberOfBombs + 1)) {
     state = "Minefield Cleared";
   }
 }
