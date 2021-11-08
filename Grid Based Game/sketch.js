@@ -25,6 +25,7 @@ let cellWidth, cellHeight;
 let numberOfBombs = 40;
 let whichGrass;
 let pauseTime;
+let cellsCleared;
 
 // button variables
 let startingButton;
@@ -40,8 +41,9 @@ let notHoverColor = "black";
 let inBoxTextColor = "white";
 let outBoxTextColor = "black";
 let letterSize = 48;
-let textBoxBuffer = 15;
+let startingTextBoxBuffer = 15;
 let replayTextBoxBuffer = 2;
+let generalTextBoxBuffer;
 
 // image varibales
 let bombImg;
@@ -99,6 +101,11 @@ function draw() {
     gameOver();
   }
 
+  // You Win
+  else if (state === "Minefield Cleared") {
+    gameComplete();
+  }
+
 }
 
 
@@ -121,11 +128,13 @@ function mousePressed() {
     else if (bombGrid[cellY][cellX] === 5) {
       if (grid[cellY][cellX] === 0 || grid[cellY][cellX] === 1) {
         grid[cellY][cellX] = 2;
+        cellsCleared += 1;
+        console.log(cellsCleared);
       }
     }
   }
 
-  if (state === "Game Over") {
+  if (state === "Game Over" || state === "Minefield Cleared") {
     pauseTime.reset();
     // pauseTime.startTime();
     if (pauseTime.isDone) {
@@ -138,7 +147,6 @@ function mousePressed() {
 
 // starting window 
 function startingWindow() {
-  
   startingButton.display();
   displayText();
 
@@ -146,23 +154,34 @@ function startingWindow() {
 }
 
 function displayText(){
+  let messageText;
+  let controlText;
   if (state === "Start Screen") {
-    fill(outBoxTextColor);
-    textSize(letterSize);
-    textAlign(CENTER);
-    text("Welcome Soldier", width / 2, height / 2);
-    fill(inBoxTextColor);
-    text("Start", width / 2, height * 3 / 5 + textBoxBuffer);
+    messageText = "Welcome Soldier";
+    controlText = "Start";
+    generalTextBoxBuffer = startingTextBoxBuffer;
   }
 
   if (state === "Game Over") {
-    fill(outBoxTextColor);
-    textSize(letterSize);
-    textAlign(CENTER);
-    text("You stepped on a bomb", width / 2, height / 2);
-    fill(inBoxTextColor);
-    text("Replay", width / 2, height * 3 / 5 + replayTextBoxBuffer);
+    messageText = "You stepped on a bomb";
+    controlText = "Replay";
+    generalTextBoxBuffer = replayTextBoxBuffer;
   }
+
+  if (state === "Minefield Cleared") {
+    messageText = "Minefield Cleared";
+    controlText = "Replay";
+    generalTextBoxBuffer = replayTextBoxBuffer;
+  }
+
+
+  fill(outBoxTextColor);
+  textSize(letterSize);
+  textAlign(CENTER);
+  text(messageText, width / 2, height / 2);
+  fill(inBoxTextColor);
+  text(controlText, width / 2, height * 3 / 5 + generalTextBoxBuffer);
+
 }
 
 // initial setup
@@ -170,6 +189,7 @@ function gameSetup () {
   grid = createAlternating2DArray(gridSize, gridSize);
   bombGrid = createBomb2DArray(gridSize, gridSize);
   neighbourGrid = neighbourCount2DArray(gridSize, gridSize);
+  cellsCleared = 0;
   state = "Mine Sweeper";
 }
 
@@ -208,11 +228,11 @@ function createBomb2DArray(rows, cols) {
 
 
 
-// 
+
 function mineSweeper() {
   displayGrid();
+  clearedMinefield();
 }
-
 
 // create mine field
 function createAlternating2DArray(rows, cols){
@@ -235,6 +255,8 @@ function createAlternating2DArray(rows, cols){
   }
   return grid;
 }
+
+
 
 
 // display bomb
@@ -293,7 +315,7 @@ function displayNeighbours(y,x) {
   
 }
 
-
+// neighbour grid
 function neighbourCount2DArray(rows, cols) {
   neighbourGrid = createEmpty2DArray(rows, cols);
   for (let y=0; y<gridSize; y++) {
@@ -321,7 +343,7 @@ function neighbourCount2DArray(rows, cols) {
   return neighbourGrid;
 }
 
-
+// empty 2D Array for neighbour grid
 function createEmpty2DArray(rows, cols, numToFill = 0) {
   let emptyGrid = [];
   for (let y=0; y < rows; y++) {
@@ -334,12 +356,26 @@ function createEmpty2DArray(rows, cols, numToFill = 0) {
 }
 
 
+// cleared minefield
+function clearedMinefield() {
+  if (cellsCleared > gridSize * gridSize - (numberOfBombs + 1)) {
+    state = "Minefield Cleared";
+  }
+}
+
+function gameComplete() {
+  replayButton.display();
+  displayText();
+}
+
+
 // hit a bomb
 function gameOver() {
   displayBomb();
   replayButton.display();
   displayText();
 }
+
 
 
 // Create Buttons
