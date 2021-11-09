@@ -137,10 +137,10 @@ function mousePressed() {
   if (state === "Game Over" || state === "Minefield Cleared") {
     pauseTime.reset();
     // pauseTime.startTime();
-    if (pauseTime.isDone) {
-      if (replayButton.isPointInButton(mouseX, mouseY)) {
-        state = "Game Setup";
-      } 
+    // if (pauseTime.isDone) {
+    if (replayButton.isPointInButton(mouseX, mouseY)) {
+      state = "Game Setup";
+      // } 
     }
   }
 }
@@ -193,10 +193,6 @@ function gameSetup () {
   state = "Mine Sweeper";
 }
 
-
-function floodFill(mouseX, mouseY) {
-    
-}
 
 // Bomb Grid
 function createBomb2DArray(rows, cols) {
@@ -410,17 +406,17 @@ class Button {
 
 
 // timer to prevent pre-emptive replay
-class Timer {
-  constructor(waitTime) {
-    this.startTime = millis();
-    this.waitTime = waitTime;
-  }
+// class Timer {
+//   constructor(waitTime) {
+//     this.startTime = millis();
+//     this.waitTime = waitTime;
+//   }
 
-  isDone() {
-    return millis() > this.waitTime + this.startTime;
-  }
+//   isDone() {
+//     return millis() > this.waitTime + this.startTime;
+//   }
 
-  reset() {
-    this.startTime = millis();
-  }
-}
+//   reset() {
+//     this.startTime = millis();
+//   }
+// }
