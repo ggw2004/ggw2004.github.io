@@ -71,7 +71,7 @@ function setup() {
   cellHeight = height / gridSize;
   startingButton = new Button(width/2 - startingBoxWidth/2, height/2 + startingBoxHeight/2, startingBoxWidth, startingBoxHeight, hoverColor, notHoverColor, letterSize);
   replayButton = new Button (width/2 - replayBoxWidth/2, height/2 + replayBoxHeight/2, replayBoxWidth, replayBoxHeight, hoverColor, notHoverColor, letterSize);
-  pauseTime = new Timer(5000);
+  // pauseTime = new Timer(5000);
 }
 
 
