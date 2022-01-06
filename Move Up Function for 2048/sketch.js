@@ -4,7 +4,7 @@ let grid = [[0,0,0],
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // grid = moveUp(grid);
+  grid = moveDown(grid);
 }
 
 function draw() {
@@ -17,11 +17,30 @@ function moveUp(grid) {
       if (grid[y][x] !== 0) {
         let thisY = y;
         let thisX = x;
-        while (grid[thisY-1][thisX] === 0) {
+        while (thisY >= 1 && grid[thisY-1][thisX] === 0) { // does not like thisX or thisY
           // swapWithAbove
-          let temporaryVariable = grid[thisY][thisX]; // does not like thisX
-          grid[thisY][thisX] = grid[thisY-1][thisX];
-          grid[thisY-1][thisX] = temporaryVariable;
+          grid[thisY -1 ][thisX] = grid[thisY][thisX];
+          grid[thisY][thisX] = 0;
+
+          //change thisY
+          thisY = thisY - 1;
+        }
+      }
+    }
+  }
+  return grid;
+}
+
+function moveDown(grid) {
+  for (let y=1; y >= 0; y--) {
+    for (let x=2; x >= 0; x--) {
+      if (grid[y][x] !== 0) {
+        let thisY = y;
+        let thisX = x;
+        while (thisY <= 2 && grid[thisY+1][thisX] === 0) { // does not like thisX or thisY
+          // swapWithAbove
+          grid[thisY + 1 ][thisX] = grid[thisY][thisX];
+          grid[thisY][thisX] = 0;
 
           //change thisY
           thisY = thisY + 1;
@@ -31,5 +50,4 @@ function moveUp(grid) {
   }
   return grid;
 }
-
 
