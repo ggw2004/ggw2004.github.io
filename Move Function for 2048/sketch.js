@@ -4,7 +4,7 @@ let grid = [[2,0,2],
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  grid = moveDown(grid);
+  // grid = moveDown(grid);
 }
 
 function draw() {
@@ -37,8 +37,8 @@ function moveDown(grid) {
       if (grid[y][x] !== 0) {
         let thisY = y;
         let thisX = x;
-        while (thisY <= 2 && grid[thisY+1][thisX] === 0) { // does not like thisX or thisY
-          // swapWithAbove
+        while (thisY <= 0 && grid[thisY+1][thisX] === 0) { // does not like thisX or thisY
+          // swap with below
           grid[thisY + 1 ][thisX] = grid[thisY][thisX];
           grid[thisY][thisX] = 0;
 
