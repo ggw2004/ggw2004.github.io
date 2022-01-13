@@ -40,7 +40,8 @@ let notHoverColor = "black";
 // text variables
 let inBoxTextColor = "white";
 let outBoxTextColor = "black";
-let letterSize = 48;
+let primaryLetterSize = 48;
+let secondaryLetterSize = 24;
 let startingTextBoxBuffer = 15;
 let replayTextBoxBuffer = 2;
 let generalTextBoxBuffer;
